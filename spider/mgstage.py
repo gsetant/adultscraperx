@@ -29,13 +29,11 @@ class MGStage(UnsensoredSpider):
             browser.get(url)
             time.sleep(2)
             btn_xpath = "//a[@id='AC']"  # 18确认
-            # btn = browser.find_elements_by_xpath(btn_xpath)
-            btn = browser.find_element(By.XPATH, btn_xpath)
+            btn = browser.find_elements(By.XPATH, btn_xpath)
             if len(btn) > 0:
                 btn[0].click()
 
             items_href_xpath = "//div[@class='rank_list']/ul/li/h5/a"
-            # items_list = browser.find_elements_by_xpath(items_href_xpath)
             items_list = browser.find_elements(By.XPATH, items_href_xpath)
             media_item = None
             for item in items_list:
@@ -45,7 +43,7 @@ class MGStage(UnsensoredSpider):
             logging.info('结束模拟')
             logging.info('关闭 browser 模拟')
             browserTools.closeBrowser()
-            if media_item and media_item.title and media_item.title is not '':
+            if media_item and media_item.title and media_item.title != '':
                 results.append(media_item)
 
             return results
@@ -61,7 +59,6 @@ class MGStage(UnsensoredSpider):
 
         media = MetaData()
         infos_xpath = "//div[@class='detail_data']"
-        # infos = browser.find_elements_by_xpath(infos_xpath)
         infos = browser.find_elements(By.XPATH, infos_xpath)
         info_list = infos[0].text.split('\n')
         for info in info_list:
@@ -107,28 +104,23 @@ class MGStage(UnsensoredSpider):
 
         # title
         title_xpath = "//h1[@class='tag']"
-        # title = browser.find_elements_by_xpath(title_xpath)
         title = browser.find_elements(By.XPATH, title_xpath)
         media.title = self.tools.cleanstr(title[0].text)
 
         more_xpath = "//p[@id='introduction_all']"
-        # more = browser.find_elements_by_xpath(more_xpath)
         more = browser.find_elements(By.XPATH, more_xpath)
         if not more[0].get_attribute("style") == 'display: none;':
             more[0].click()
 
         summary_xpath = "//p[@class='txt introduction']"
-        # summary = browser.find_elements_by_xpath(summary_xpath)
         summary = browser.find_elements(By.XPATH, summary_xpath)
         media.summary = summary[0].text
 
         poster_xpath = "//a[@id='EnlargeImage']"
-        # poster = browser.find_elements_by_xpath(poster_xpath)
         poster = browser.find_elements(By.XPATH, poster_xpath)
         media.poster = poster[0].get_attribute('href')
 
         art_xpath = "//div[@class='detail_left']/dl[@id='sample-photo']/dd/ul/li[1]/a[@class='sample_image']"
-        # art = browser.find_elements_by_xpath(art_xpath)
         art = browser.find_elements(By.XPATH, art_xpath)
         media.thumbnail = art[0].get_attribute('href')
 

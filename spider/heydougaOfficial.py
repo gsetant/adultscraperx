@@ -5,6 +5,8 @@ from app.plugins.adultscraperx.spider.uncensored_spider import UnsensoredSpider
 from PIL import Image
 import sys
 import re
+from selenium.webdriver.common.by import By
+
 if sys.version.find('2', 0, 1) == 0:
     try:
         from cStringIO import StringIO
@@ -68,13 +70,13 @@ class HeydougaOfficial(UnsensoredSpider):
         media.number = q.replace('/', '-')
 
         xpath_title = "//div[@id='title-bg']/h1"
-        title = browser.find_elements_by_xpath(xpath_title)[0].text
+        title = browser.find_elements(By.XPATH, xpath_title)[0].text
         if len(title) > 0:
             title = self.tools.cleanstr(title)
             media.title = title
 
         xpath_summary = "//div[@class='movie-description']/p"
-        summary = browser.find_elements_by_xpath(xpath_summary)[0].text
+        summary = browser.find_elements(By.XPATH, xpath_summary)[0].text
         if len(summary) > 0:
             summary = self.tools.cleanstr(summary)
             media.summary = summary
@@ -101,13 +103,13 @@ class HeydougaOfficial(UnsensoredSpider):
         media.collections ='heydouga'
 
         xpath_year = "//div[@id='movie-info']//li[1]/span[2]"
-        year = browser.find_elements_by_xpath(xpath_year)[0].text
+        year = browser.find_elements(By.XPATH, xpath_year)[0].text
         if len(year) > 0:
             media.year = year
             media.originally_available_at = year
 
         xpath_category = "//ul[@id='movie_tag_list']/li/a"
-        categorys = browser.find_elements_by_xpath(xpath_category)
+        categorys = browser.find_elements(By.XPATH, xpath_category)
         category_list = []
         for category in categorys:
             category_list.append(self.tools.cleanstr(category.text))
@@ -118,7 +120,7 @@ class HeydougaOfficial(UnsensoredSpider):
         actor = {}
         xpath_actor_name = "//div[@id='movie-info']/ul/li[2]/span[2]/a"
         #xpath_actor_url = "//div[@id='star-div']//img/@src"
-        actor_name = browser.find_elements_by_xpath(xpath_actor_name)
+        actor_name = browser.find_elements(By.XPATH, xpath_actor_name)
         #actor_url = html.xpath(xpath_actor_url)
         if len(actor_name) > 0:
             actor_names = actor_name[0].text.split(' ')

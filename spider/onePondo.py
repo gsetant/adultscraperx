@@ -4,6 +4,7 @@ import time
 from app.core.model.meta_data import MetaData
 from app.plugins.adultscraperx.internel.browser_tools import BrowserTools
 from app.plugins.adultscraperx.spider.uncensored_spider import UnsensoredSpider
+from selenium.webdriver.common.by import By
 
 
 class OnePondo(UnsensoredSpider):
@@ -38,7 +39,7 @@ class OnePondo(UnsensoredSpider):
         media = MetaData()
         browser.get("https://www.1pondo.tv/movies/%s/" % q)
         btn_xpath = "//button[@class='button-flat button-medium button-icon--right see-more']"
-        btn = browser.find_elements_by_xpath(btn_xpath)
+        btn = browser.find_elements(By.XPATH, btn_xpath)
         if len(btn) == 0:
             return []
         btn[0].click()
