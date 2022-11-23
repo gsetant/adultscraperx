@@ -5,6 +5,7 @@ import sys
 from app.core.model.meta_data import MetaData
 from app.plugins.adultscraperx.internel.browser_tools import BrowserTools
 from app.plugins.adultscraperx.spider.uncensored_spider import UnsensoredSpider
+from selenium.webdriver.common.by import By
 
 if sys.version.find('2', 0, 1) == 0:
     try:
@@ -62,12 +63,12 @@ class TenMusume(UnsensoredSpider):
         media = MetaData()
         media.number = number
         xpath_title = '/html/body/div[2]/main/div/div[2]/div[1]/div[1]/div[2]/h1'
-        title = html.find_elements_by_xpath(xpath_title)
+        title = html.find_elements(By.XPATH, xpath_title)
         if len(title) > 0:
             media.title = title[0].text
 
         xpath_summary = '/html/body/div[2]/main/div/div[2]/div[1]/div[1]/p'
-        summary = html.find_elements_by_xpath(xpath_summary)
+        summary = html.find_elements(By.XPATH, xpath_summary)
         if len(summary) > 0:
             summary = summary[0].text
             media.summary = summary
@@ -98,14 +99,14 @@ class TenMusume(UnsensoredSpider):
         media.collections = collections
 
         xpath_year = '/html/body/div[2]/main/div/div[2]/div[1]/div[1]/ul/li[1]/span[2]'
-        year = html.find_elements_by_xpath(xpath_year)[0].text.split('/')
+        year = html.find_elements(By.XPATH, xpath_year)[0].text.split('/')
         if len(year) > 0:
             year = year[0]
             media.year = year
             media.originally_available_at = year
 
         xpath_category = '/html/body/div[2]/main/div/div[2]/div[1]/div[1]/ul/li[6]/span[2]/span/a'
-        categorys = html.find_elements_by_xpath(xpath_category)
+        categorys = html.find_elements(By.XPATH, xpath_category)
         category_list = []
         for category in categorys:
             category_list.append(category.text)
@@ -116,7 +117,7 @@ class TenMusume(UnsensoredSpider):
         actor = {}
         xpath_actor_name = '/html/body/div[2]/main/div/div[2]/div[1]/div[1]/ul/li[3]/span[2]/span/a'
         # xpath_actor_url = "//div[@class='video-performer']/a/img/@style"
-        actor_name = html.find_elements_by_xpath(xpath_actor_name)
+        actor_name = html.find_elements(By.XPATH, xpath_actor_name)
         # actor_url = html.xpath(xpath_actor_url)
         if len(actor_name) > 0:
             for i, actorname in enumerate(actor_name):

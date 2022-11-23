@@ -4,6 +4,7 @@ import time
 from app.core.model.meta_data import MetaData
 from app.plugins.adultscraperx.internel.browser_tools import BrowserTools
 from app.plugins.adultscraperx.spider.uncensored_spider import UnsensoredSpider
+from selenium.webdriver.common.by import By
 
 
 class OnePondo(UnsensoredSpider):
@@ -38,7 +39,7 @@ class OnePondo(UnsensoredSpider):
         media = MetaData()
         browser.get("https://www.1pondo.tv/movies/%s/" % q)
         btn_xpath = "//button[@class='button-flat button-medium button-icon--right see-more']"
-        btn = browser.find_elements_by_xpath(btn_xpath)
+        btn = browser.find_elements(By.XPATH, btn_xpath)
         if len(btn) == 0:
             return []
         btn[0].click()
@@ -51,11 +52,11 @@ class OnePondo(UnsensoredSpider):
 
         # title
         title_xpath = "//h1[@class='h1--dense']"
-        title = browser.find_elements_by_xpath(title_xpath)
+        title = browser.find_elements(By.XPATH, title_xpath)
         media.title = title[0].text
 
         summary_xpath = "//div[@class='movie-info section divider']/div[@class='movie-detail']/p"
-        summary = browser.find_elements_by_xpath(summary_xpath)
+        summary = browser.find_elements(By.XPATH, summary_xpath)
         media.summary = summary[0].text
 
         media.poster = 'https://www.1pondo.tv/assets/sample/%s/str.jpg' % number
@@ -66,18 +67,18 @@ class OnePondo(UnsensoredSpider):
 
         # Collection
         collection_xpath = "//li[@class='movie-detail__spec'][3]/span[@class='spec-content']"
-        Collection = browser.find_elements_by_xpath(collection_xpath)
+        Collection = browser.find_elements(By.XPATH, collection_xpath)
         media.collections = Collection[0].text
 
         # datatime
         datatime_xpath = "//li[@class='movie-detail__spec'][1]/span[@class='spec-content']"
-        datatime = browser.find_elements_by_xpath(datatime_xpath)
+        datatime = browser.find_elements(By.XPATH, datatime_xpath)
         media.year = datatime[0].text
         media.originally_available_at = datatime[0].text
 
         # types
         categorys_xpath = "//span[@class='spec-content']/a[@class='spec__tag']"
-        categorys = browser.find_elements_by_xpath(categorys_xpath)
+        categorys = browser.find_elements(By.XPATH, categorys_xpath)
 
         categorys_list = []
         for item in categorys:
@@ -89,7 +90,7 @@ class OnePondo(UnsensoredSpider):
         # actor
         actor = {}
         xpath_actor_name = "//li[@class='movie-detail__spec'][2]/span[@class='spec-content']"
-        actor_name = browser.find_elements_by_xpath(xpath_actor_name)
+        actor_name = browser.find_elements(By.XPATH, xpath_actor_name)
         if len(actor_name) > 0:
             for i, actorname in enumerate(actor_name):
                 actor.update({self.tools.cleanstr2(
