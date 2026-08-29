@@ -2,7 +2,7 @@
   "requirements": [
     {
       "name": "pillow",
-      "version": "release"
+      "version": "9.5.0"
     },
     {
       "name": "selenium",
